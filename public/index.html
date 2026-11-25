@@ -47,7 +47,7 @@ button,input,select{font:inherit;color:inherit}
 /* 木の質感（板目）。ボタンや札に使う */
 .woodgrain,header.top,nav.steps button,.sound,.nameplate{background-color:var(--wood-3);background-image:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 1px,transparent 1px 7px),repeating-linear-gradient(90deg,rgba(255,220,170,.04) 0 2px,transparent 2px 19px)}
 
-header.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;padding:10px max(16px,3vw);color:var(--washi);background-color:#130d09;border-bottom:1px solid #000;box-shadow:inset 0 -1px 0 rgba(168,132,62,.25)}
+header.top{display:flex;flex-wrap:nowrap;align-items:center;gap:10px 24px;padding:0 max(16px,3vw);height:62px;box-sizing:border-box;color:var(--washi);background-color:#130d09;border-bottom:1px solid #000;box-shadow:inset 0 -1px 0 rgba(168,132,62,.25)}
 .brand{display:flex;align-items:center;gap:14px}
 .brand .mark{width:38px;height:38px;border:2px solid var(--shu);display:grid;place-items:center;color:var(--shu);font-family:var(--f-seal);font-weight:800;font-size:22px;transform:rotate(-6deg);background:rgba(200,50,40,.06)}
 .brand h1{font-family:var(--f-mincho);font-weight:700;font-size:23px;margin:0;letter-spacing:.32em;line-height:1.2}
@@ -62,6 +62,8 @@ nav.steps button[aria-current="step"]{color:#fff;border-color:#8a5a34}
 .sound{margin-left:auto;border:1px solid #5a3c24;color:#e8dcc6;border-radius:0;padding:5px 12px;font-size:13px;cursor:pointer;letter-spacing:.1em}
 
 main{max-width:1280px;margin:0 auto;padding:0 max(12px,2.5vw) 120px}
+main:has(>.step[data-step="1"]:not([hidden])){padding-bottom:0}
+html,body{overflow-x:clip} /* 100vw の作業画面がスクロールバーぶん横にはみ出さないように */
 main>.step:not([data-step="1"]){margin-top:18px}
 
 /* 入門（タイトル）と印材棚：中央は空けて、宙で回る石を見せる */
@@ -77,7 +79,38 @@ main>.step:not([data-step="1"]){margin-top:18px}
 .k-actions:has(#btn-cert:not([hidden])){position:fixed;right:16px;bottom:16px;left:auto;z-index:20;background:rgba(19,13,9,.86);border:1px solid #5a3c24;padding:8px;margin:0;gap:6px;width:auto}
 .k-actions:has(#btn-cert:not([hidden])) #btn-kantei{background:transparent;color:#efe6d6;border-color:#7a5a3e;font-weight:500}
 .k-actions:has(#btn-cert:not([hidden])) #btn-x{background:var(--washi)}
-.step[data-step="3"]{padding-bottom:88px}
+.step[data-step="3"]{padding-bottom:96px}
+.k-dock{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#130d09;border-top:1px solid #000;box-shadow:inset 0 1px 0 rgba(168,132,62,.3)}
+.step[data-step="3"][hidden] .k-dock{display:none}
+.k-dock-in{max-width:1280px;margin:0 auto;padding:10px max(12px,2.5vw);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.k-grp{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.k-lb{font-size:11px;letter-spacing:.3em;color:#a8998a;writing-mode:horizontal-tb;margin-right:2px}
+.k-dock .btn{margin:0}
+.k-dock .btn.ghost{background:transparent;color:#efe6d6;border-color:#7a5a3e}
+.k-dock .btn.ghost:hover:not(:disabled){border-color:var(--shu);color:#fff}
+.k-dock .btn.primary{background:var(--shu);border-color:var(--shu-deep);color:var(--washi);font-weight:700;padding-left:22px;padding-right:22px}
+.k-dock .btn:disabled{opacity:.55;cursor:progress}
+.k-more{position:relative}
+.k-more summary{list-style:none;cursor:pointer}
+.k-more summary::-webkit-details-marker{display:none}
+.k-menu{position:absolute;bottom:calc(100% + 8px);left:0;background:var(--washi);border:1px solid #b8aa92;display:grid;min-width:200px;box-shadow:inset 0 0 0 3px var(--washi),inset 0 0 0 4px rgba(28,28,28,.25);padding:6px}
+.k-menu button{background:transparent;border:0;text-align:left;padding:9px 12px;font-family:var(--f-mincho);color:var(--sumi);cursor:pointer;font-size:14px}
+.k-menu button:hover{background:rgba(200,50,40,.1);color:var(--shu-deep)}
+@media (max-width:700px){
+  .k-dock-in{flex-direction:column-reverse;align-items:stretch;gap:8px;padding:8px 10px}
+  .k-grp{flex-wrap:nowrap}
+  .k-lb{display:none}
+  .k-take{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1.3fr)}
+  .k-next{display:grid;grid-template-columns:1fr 1fr}
+  .k-dock .lg{display:none}
+  .k-more summary{display:flex;justify-content:center}
+  .k-menu{left:0;right:auto}
+  .k-next .btn{flex:1}
+  .k-dock .btn{min-height:44px;font-size:13px;padding:8px 8px;white-space:nowrap}
+  .k-more summary{white-space:nowrap}
+  .step[data-step="3"]{padding-bottom:132px}
+}
+@media (max-width:700px){ .stage .choice-bar{left:10px;right:10px;transform:none;max-width:none;padding:8px} .stage .choice-bar::before{width:100%;text-align:center;margin:0} .stage .choice-bar button{flex:1 1 40%;padding:8px 6px;font-size:14px;white-space:nowrap} }
 @media (max-width:560px){ .k-actions:has(#btn-cert:not([hidden])){left:10px;right:10px;bottom:10px;justify-content:space-between} .k-actions:has(#btn-cert:not([hidden])) #btn-kantei{display:none} .k-actions .btn{flex:1;min-height:44px;font-size:13px;white-space:nowrap;padding:8px 6px;letter-spacing:.02em} }
 .k-actions #btn-cert{background:var(--shu);color:var(--washi);border-color:var(--shu-deep);order:9;font-weight:700}
 /* 選んでいる物は、色だけでなく印と太さでも示す */
@@ -92,7 +125,7 @@ main>.step:not([data-step="1"]){margin-top:18px}
 .edge-arrow .ar{display:inline-block;color:var(--shu);font-size:16px}
 .edge-arrow:hover{border-color:var(--shu)}
 .loupe{position:absolute;z-index:7;left:0;top:0;width:120px;height:120px;border-radius:50%;border:3px solid var(--brass);box-shadow:0 0 0 2px #1a120d;pointer-events:none;background:#000}
-.master .bubble:has(#master-say:empty):has(#master-choices:empty){visibility:hidden}
+.master .bubble:has(#master-say:empty){visibility:hidden}
 .howto-card{background:var(--washi);color:var(--sumi);width:min(560px,100%);max-height:100%;overflow:auto;padding:22px 26px 20px;border:1px solid #b8aa92;box-shadow:inset 0 0 0 4px var(--washi),inset 0 0 0 5px rgba(28,28,28,.35);text-align:center}
 .howto-card h2{font-family:var(--f-mincho);font-weight:800;letter-spacing:.4em;margin:0 0 12px;font-size:22px}
 .howto-steps{list-style:none;margin:0 0 12px;padding:0;text-align:left;display:grid;gap:10px}
@@ -209,7 +242,7 @@ body.pre .master,body.pre .mirror,body.pre .hud,body.seating .master,body.seatin
 .btn.small{padding:6px 14px;font-size:13px}
 
 /* 工房（3D） */
-.stage{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:calc(100vh - 62px);height:calc(100dvh - 62px);min-height:420px;overflow:hidden;background:#0c0806;touch-action:none;user-select:none}
+.stage{position:relative;width:100vw;margin-left:calc(50% - 50vw);max-width:none;height:calc(100vh - 62px);height:calc(100dvh - 62px);min-height:420px;overflow:hidden;background:#0c0806;touch-action:none;user-select:none}
 .stage canvas#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
 .stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse 75% 70% at 50% 52%,transparent 55%,rgba(6,4,2,.55))}
 .gl-error{position:absolute;inset:0;display:grid;place-items:center;color:var(--washi);padding:24px;text-align:center;font-size:14px}
@@ -246,12 +279,14 @@ body.pre .master,body.pre .mirror,body.pre .hud,body.seating .master,body.seatin
 .master .grade.self{color:var(--sumi-2);border-color:var(--sumi-2);transform:rotate(4deg)}
 .master .score-break{font-size:12px;color:var(--muted);letter-spacing:.04em}
 .master .trial{float:right;width:88px;height:88px;margin:0 0 4px 10px;background:var(--washi);border:1px solid #cdbfa6}
-.master .choices{clear:both;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.master .choices:empty{display:none}
-.master .choices button{border:1px solid var(--sumi-2);background:transparent;border-radius:0;padding:5px 12px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.08em;color:var(--sumi)}
-.master .choices button:hover{background:rgba(28,28,28,.07)}
-.master .choices button.primary{background:var(--shu);border-color:var(--shu-deep);color:var(--washi)}
-.master .choices button kbd{font:inherit;font-size:10px;opacity:.75;margin-left:6px;border:1px solid currentColor;padding:0 3px;letter-spacing:0}
+.choice-bar{position:absolute;z-index:7;left:50%;transform:translateX(-50%);bottom:var(--choice-bottom,76px);display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;max-width:calc(100% - 28px);background:rgba(19,13,9,.9);border:1px solid #5a3c24;padding:8px 10px}
+.choice-bar:empty{display:none}
+.choice-bar::before{content:"源じいへの返事";font-size:11px;letter-spacing:.2em;color:#a8998a;margin-right:4px}
+.choice-bar button{border:1px solid #b8aa92;background:var(--washi);border-radius:0;padding:8px 16px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.08em;color:var(--sumi);font-family:var(--f-mincho)}
+.choice-bar button:hover{border-color:var(--shu);color:var(--shu-deep)}
+.choice-bar button:active{transform:translateY(1px)}
+.choice-bar button.primary{background:var(--shu);border-color:var(--shu-deep);color:var(--washi)}
+.choice-bar button kbd{font:inherit;font-size:10px;opacity:.75;margin-left:6px;border:1px solid currentColor;padding:0 3px;letter-spacing:0}
 .master.in-stage{position:absolute;left:14px;top:12px;max-width:calc(100% - 170px)}
 .master.floating{position:fixed;left:16px;bottom:16px;max-width:min(580px,calc(100% - 32px))}
 .master.min .bubble{display:none}
@@ -361,8 +396,8 @@ input[type=range]{width:100%;accent-color:var(--shu)}
   .hud .act{padding:5px 8px;font-size:12px;letter-spacing:.06em}
 }
 @media (pointer:coarse){
-  .master .choices button kbd{display:none}
-  .master .choices button{min-height:44px}
+  .choice-bar button kbd{display:none}
+  .choice-bar button{min-height:44px}
   .hud .act,#hud-tool button,.hud .pill.bow button{min-height:40px;min-width:40px}
   .hud .done{min-height:46px}
 }
@@ -513,6 +548,16 @@ input[type=range]{width:100%;accent-color:var(--shu)}
 
   <!-- 三 鑑定 -->
   <section class="step" data-step="3" hidden>
+    <div class="k-dock" id="k-dock" role="toolbar" aria-label="鑑定のあとにできること">
+      <div class="k-dock-in">
+        <div class="k-grp k-next"><span class="k-lb">つぎ</span><button type="button" class="btn ghost" id="d-repress"><span class="lg">新しい紙で</span>押し直す</button><button type="button" class="btn ghost" id="d-again"><span class="lg">石を選んで</span>もう一本</button></div>
+        <div class="k-grp k-take"><span class="k-lb">持ち帰る</span>
+          <details class="k-more" id="d-more"><summary class="btn ghost">印影<span class="lg">だけ保存</span> ▾</summary><div class="k-menu"><button type="button" id="d-ex-straight">透過PNG（まっすぐ）</button><button type="button" id="d-ex-bow">透過PNG（お辞儀版）</button><button type="button" id="d-ex-doc">稟議書ごと</button></div></details>
+          <button type="button" class="btn ghost" id="d-x" disabled>Xに投稿<span class="lg">（画像も保存）</span></button>
+          <button type="button" class="btn primary" id="d-cert" disabled>鑑定中…</button>
+        </div>
+      </div>
+    </div>
     <div class="m-slot" id="m-slot3"></div>
     <div class="panel stack">
       <h2>印影</h2>
@@ -521,14 +566,14 @@ input[type=range]{width:100%;accent-color:var(--shu)}
         <div class="row" style="display:none"><button type="button" class="btn ghost small" id="btn-again">もう一本彫る（最初から）</button></div>
         <div class="show3d-wrap"><canvas id="show3d" width="640" height="440" aria-label="完成した印鑑（ドラッグで回せる）"></canvas><span>完成した印鑑（ドラッグで回せる）</span></div>
         <div class="imp-box" id="imp-box"><img id="imp-img" alt="あなたの印影"></div>
-        <div class="row"><button type="button" class="btn ghost small" id="btn-check">背景を透過表示</button></div>
+        <div class="row" hidden><button type="button" class="btn ghost small" id="btn-check">背景を透過表示</button></div>
         <div>
-          <h3>画像として持ち帰る</h3>
+          <div hidden><h3>画像として持ち帰る</h3>
           <div class="row">
             <button type="button" class="btn primary small" id="ex-straight">透過PNG（まっすぐ）</button>
             <button type="button" class="btn ghost small" id="ex-bow">透過PNG（お辞儀版）</button>
             <button type="button" class="btn ghost small" id="ex-doc">稟議書ごと</button>
-          </div>
+          </div></div>
           <p class="hint">保存できない環境では、印影の画像を長押し（右クリック）して保存してください。</p>
         </div>
       </div>
@@ -545,7 +590,7 @@ input[type=range]{width:100%;accent-color:var(--shu)}
         <details class="collect"><summary id="collect-sum">集めた称号</summary><ul class="collect-list" id="collect-list"></ul></details>
         <div class="stars" id="k-stars"></div>
         <div id="k-text"><span style="color:var(--muted)">鑑定士「朱雀院 印斎」が、あなたの彫りと押し方を見て鑑定します。</span></div>
-        <div class="row k-actions" style="margin-top:14px"><button type="button" class="btn primary" id="btn-kantei">鑑定してもらう</button><button type="button" class="btn ghost" id="btn-cert" hidden>鑑定書を画像で保存</button><button type="button" class="btn ghost" id="btn-x" hidden title="鑑定書の画像を保存してから、Xの投稿画面を開きます">Xに投稿（画像も保存）</button></div>
+        <div class="row k-actions" hidden><button type="button" class="btn primary" id="btn-kantei">鑑定してもらう</button><button type="button" class="btn ghost" id="btn-cert" hidden>鑑定書を画像で保存</button><button type="button" class="btn ghost" id="btn-x" hidden title="鑑定書の画像を保存してから、Xの投稿画面を開きます">Xに投稿（画像も保存）</button></div>
         <p class="note">※ 鑑定は娯楽です。運勢を保証するものではありません。</p>
       </div>
       <div id="k-body-empty" class="empty">押印すると、ここに鑑定書が出ます。</div>
@@ -1085,7 +1130,7 @@ function resize(){
   const r=stageEl.getBoundingClientRect(); if(!r.width) return;
   const was=camera.aspect<1;
   renderer.setSize(r.width,r.height,false); camera.aspect=r.width/r.height; camera.updateProjectionMatrix();
-  try{ if(P.active&&was!==(camera.aspect<1)) framePress(); }catch(e){} /* 起動直後は P がまだ無い */
+  try{ if(P.active&&!P.auto) framePress(); }catch(e){} /* 起動直後は P がまだ無い。押印中は画面の大きさが変わるたびに合わせ直す */
 }
 new ResizeObserver(resize).observe(stageEl);
 
@@ -1260,6 +1305,13 @@ $('#act-grind').addEventListener('click',()=>say('研ぎ直すと、彫ったの
 function syncBlowPill(){ const b=$('#act-blow'); if(!b) return; b.classList.remove('cool'); void b.offsetWidth; b.classList.add('cool'); }
 function syncActs(){ const p=state.phase; $$('#hud-acts .act, #hud-view .act').forEach(b=>{ b.hidden=!b.dataset.ph.split(' ').includes(p); }); }
 function repress(){ goStep(2); try{ newPaper(); }catch(e){} say(pick(['もう一枚じゃな。今度はどう押す？','押し直しか。紙はなんぼでもある。','よし、新しい稟議書じゃ。']),{force:true,mood:'happy'}); }
+function syncDock(){ const ready=!$('#btn-cert').hidden&&!kanteiBusy; $('#d-cert').disabled=!ready; $('#d-x').disabled=!ready; $('#d-cert').innerHTML=ready?'鑑定書<span class="lg">を画像で</span>保存':'鑑定中…'; }
+$('#d-cert').addEventListener('click',()=>$('#btn-cert').click());
+$('#d-x').addEventListener('click',()=>shareX());
+$('#d-repress').addEventListener('click',()=>repress());
+$('#d-again').addEventListener('click',()=>restartAll());
+[['d-ex-straight','ex-straight'],['d-ex-bow','ex-bow'],['d-ex-doc','ex-doc']].forEach(([a,b])=>$('#'+a).addEventListener('click',()=>{ $('#'+b).click(); $('#d-more').open=false; }));
+document.addEventListener('click',e=>{ const m=$('#d-more'); if(m.open&&!m.contains(e.target)) m.open=false; });
 function submitKantei(){ if(!state.last) return; endPress(); goStep(3); }
 $('#hud-submit').addEventListener('click',submitKantei); $('#hud-submit').addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); submitKantei(); } });
 $('#hud-tool').addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); cycleTool(); } });
@@ -1709,8 +1761,11 @@ function showLine(text){ sayEl.textContent=text; freshen(); speakFor([...text].l
 // スマホでは、選択肢のない一言は読み終わる頃に吹き出しをたたむ（顔を押せば開く）
 function autoFold(n){ clearTimeout(master.foldT); if(innerWidth>=700) return; master.foldT=setTimeout(()=>{ if(!master.choices&&innerWidth<700&&state.step===1&&!carving) masterEl.classList.add('min'); else if(!master.choices&&innerWidth<700&&state.step===1) autoFold(4); },2400+n*120); }
 function sayHTML(html,talk=true){ clearInterval(master.timer); masterEl.classList.remove('min'); sayEl.innerHTML=html; master.last=performance.now(); talking=talk&&!reduceMotion; }
+(()=>{ const box=$('#master-choices'); box.classList.remove('choices'); box.classList.add('choice-bar'); stageEl.appendChild(box); })();
+// 帯の高さに合わせて、返事の帯を操作の帯のすぐ上に置く
+function placeChoiceBar(){ const h=$('#hud'); stageEl.style.setProperty('--choice-bottom',((h&&h.offsetHeight)||40)+26+'px'); }
 function setChoices(list){
-  const box=$('#master-choices'); box.innerHTML=''; master.choices=list&&list.length?list:null;
+  placeChoiceBar(); const box=$('#master-choices'); box.innerHTML=''; master.choices=list&&list.length?list:null;
   if(!master.choices) return;
   master.choices.forEach(c=>{ const b=document.createElement('button'); b.type='button'; if(c.primary) b.className='primary'; b.textContent=c.label; if(c.primary){ const k=document.createElement('kbd'); k.textContent='Enter'; b.appendChild(k); } b.addEventListener('click',()=>pickChoice(c)); box.appendChild(b); });
 }
@@ -2360,7 +2415,7 @@ const toBlob=cv=>new Promise(r=>cv.toBlob(r,'image/png'));
 let kanteiBusy=false;
 $('#btn-kantei').addEventListener('click',async e=>{
   if(kanteiBusy||!state.last) return;
-  kanteiBusy=true; const btn=e.currentTarget; btn.disabled=true;
+  kanteiBusy=true; const btn=e.currentTarget; btn.disabled=true; syncDock();
   const M=metrics(), out=$('#k-text'); let done=false;
   if(sampleNs){
     out.innerHTML='<span class="thinking">鑑定士が印影を覗き込んでいます…</span>';
@@ -2381,7 +2436,7 @@ $('#btn-kantei').addEventListener('click',async e=>{
   const certLine=!master.said.has('cert')?'鑑定書は画像にして持って帰れるぞ。友達に見せてみい。'
     :nGot>=TITLE_NAMES.length?'称号を全部集めたんか…。わしでも持っとらんぞ。':nGot>=12?`称号は${nGot}個か。半分は越えたな。`:pick(['また一本、増えたな。','鑑定書、持って帰るか？','…悪くない一本じゃ。']);
   master.said.add('cert');
-  say(certLine,{force:true,mood:'happy',choices:[{label:'鑑定書を画像で保存',primary:true,fn:()=>$('#btn-cert').click()},{label:'Xに投稿（画像も保存）',fn:()=>shareX()},{label:'新しい紙で押し直す',fn:()=>repress()},{label:'石を選んでもう一本',fn:()=>restartAll()}]});
+  say(certLine+'　保存は下の帯からじゃ。',{force:true,mood:'happy'}); syncDock();
 });
 let toastT=0;
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),3200); }
@@ -2450,7 +2505,9 @@ function paperHit(cx,cy){
 const docToWorld=(dx,dy)=>({wx:PAPER.x-PAPER.w/2+dx/DW*PAPER.w, wz:PAPER.z-PAPER.h/2+dy/DH*PAPER.h});
 // 押印の画角。縦長の画面では担当欄と朱肉に寄せる（押印中に画面の向きが変わった時もやり直す）
 function framePress(){
-  view.tgtT.set(3.5,0,PAPER.z-1.5); view.tElev=1.12; view.tDist=26; view.tAz=.12; lamp.target.position.set(6,0,8.6);
+  // 横は「担当欄〜朱肉の右端」まで必ず入る距離まで引く（正方形に近い画面でも朱肉が外に出ない）
+  const tanH=Math.tan(17*Math.PI/180)*camera.aspect, needR=pressPot.position.x+2.2-3.5;
+  view.tgtT.set(3.5,0,PAPER.z-1.5); view.tElev=1.12; view.tDist=Math.max(26,needR/(tanH*.92)); view.tAz=.12; lamp.target.position.set(6,0,8.6);
   if(camera.aspect<1){ view.tgtT.set(9.4,0,4.4); view.tDist=Math.max(26,6.4/(Math.tan(17*Math.PI/180)*camera.aspect)); view.tAz=0; view.tElev=1.2; lamp.target.position.set(10,0,7.5); }
 }
 function startPress(){
