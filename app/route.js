@@ -7,7 +7,8 @@ export const dynamic = 'force-dynamic';
 export async function GET(req) {
   const h = req.headers;
   const host = h.get('x-forwarded-host') || h.get('host') || '';
-  const proto = (h.get('x-forwarded-proto') || 'https').split(',')[0].trim();
+  // 公開先は https。手元（localhost）で動かした時だけ http のまま
+  const proto = /^(localhost|127\.0\.0\.1)(:|$)/.test(host) ? 'http' : 'https';
   const origin = host ? `${proto}://${host}` : '';
   const body = origin
     ? html
